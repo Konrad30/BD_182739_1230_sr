@@ -1,0 +1,49 @@
+Zad 1
+a)
+DELETE FROM postac WHERE rodzaj = "wiking" AND nazwa != 'Bjorn' ORDER BY dataUr LIMIT 2;
+b)
+ALTER TABLE walizka DROP FOREIGN KEY walizka_ibfk_1;
+ALTER TABLE walizka DROP idWlasciciel;
+ALTER TABLE przetwory DROP FOREIGN KEY przetwory_ibfk_1;
+ALTER TABLE przetwory DROP FOREIGN KEY przetwory_ibfk_2;
+ALTER TABLE przetwory DROP idWykonawca;
+ALTER TABLE przetwory DROP idKonsument;
+ALTER TABLE postac DROP idPostac;
+
+Zad 2
+a)
+ALTER TABLE postac ADD COLUMN pesel VARCHAR(11) NOT NULL;
+b)
+UPDATE postac SET pesel='05728391841' WHERE nazwa = 'Bjorn' limit 1;
+UPDATE postac SET pesel='18427187464' WHERE nazwa = 'Drozd' limit 1;
+UPDATE postac SET pesel='13892954126' WHERE nazwa = 'Tesciowa' limit 1;
+UPDATE postac SET pesel='12746127984' WHERE nazwa = 'Ottar' limit 1;
+UPDATE postac SET pesel='09234579283' WHERE nazwa = 'Aron' limit 1;
+UPDATE postac SET pesel='78912648964' WHERE nazwa = 'Svartlingr' limit 1;
+UPDATE postac SET pesel='23785628375' WHERE nazwa = 'Klakkr' limit 1;
+UPDATE postac SET pesel='78245623789' WHERE nazwa = 'Thord' limit 1;
+
+ALTER TABLE postac ADD PRIMARY KEY (`pesel`);
+
+ALTER TABLE postac MODIFY rodzaj ENUM('wiking','ptak','kobieta','syrena');
+c)
+INSERT INTO postac VALUES('Gertruda Nieszczera','syrena','1995-10-01',80,'NULL','NULL','09583726191');
+
+Zad 3
+a)
+UPDATE postac SET statek = 'Statek 2' WHERE nazwa LIKE '%a%' AND rodzaj = 'wiking';
+b)
+UPDATE statek SET maxLadownosc = (`maxLadownosc`/10)*7 WHERE date(`dataWodowania`) BETWEEN 1901 AND 2000;
+c)
+ALTER TABLE postac ADD CONSTRAINT max_wiek CHECK(`wiek` < 1000);
+
+Zad 4
+a)
+INSERT INTO postac VALUES('Loko',NULL,'1999-12-24',120,NULL,NULL,19645283921);
+b)
+CREATE TABLE marynarz AS SELECT * FROM postac WHERE statek IS NOT NULL;
+
+DELETE FROM postac WHERE statek IS NOT NULL;
+c)
+ALTER TABLE marynarz ADD FOREIGN KEY (`statek`) REFERENCES statek (`nazwaStatku`);
+ALTER TABLE marynarz ADD PRIMARY KEY (`pesel`);
